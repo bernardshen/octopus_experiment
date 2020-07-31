@@ -8,7 +8,7 @@
 using namespace std;
 
 RdmaSocket::RdmaSocket(int _cqNum, uint64_t _mm, uint64_t _mmSize, Configuration* _conf, bool _isServer, uint8_t _Mode) :
-DeviceName(NULL), Port(1), ServerPort(5678), GidIndex(0), // GidIndex(0),
+DeviceName(NULL), Port(1), ServerPort(5678), GidIndex(5), // GidIndex(0),
 isRunning(true), isServer(_isServer), cqNum(_cqNum), cqPtr(0), 
 mm(_mm), mmSize(_mmSize), conf(_conf), MaxNodeID(1), Mode(_Mode) {
 	/* Use multiple cq to parallelly process new request. */
@@ -300,7 +300,9 @@ bool RdmaSocket::ModifyQPtoRTR(struct ibv_qp *qp, uint32_t remote_qpn, uint16_t 
     attr.ah_attr.port_num = Port;
 
     // sxxxx
+    Debug::notifyInfo("gid: %d", GidIndex);
     if (GidIndex >= 0) {
+        Debug::notifyInfo("config grh");
         attr.ah_attr.is_global = 1;
         attr.ah_attr.port_num = 1;
         memcpy(&attr.ah_attr.grh.dgid, dgid, 16);
@@ -310,7 +312,7 @@ bool RdmaSocket::ModifyQPtoRTR(struct ibv_qp *qp, uint32_t remote_qpn, uint16_t 
         attr.ah_attr.grh.traffic_class = 0;
     }
     // exxxx
-    
+
     flags = IBV_QP_STATE | IBV_QP_AV | IBV_QP_PATH_MTU | IBV_QP_DEST_QPN | IBV_QP_RQ_PSN;
     // IBV_QP_MAX_DEST_RD_ATOMIC | IBV_QP_MIN_RNR_TIMER
     if (Mode == 0) {
@@ -452,7 +454,7 @@ bool RdmaSocket::ConnectQueuePair(PeerSockData *peer) {
         /* Modify the QP to RTS */
         ret = ModifyQPtoRTS(peer->qp[i]);
         if (ret == false) {
-            Debug::notifyError("failed to modify QP state to RTR");
+            Debug::notifyError("failed to modify QP state to RTS");
             rc = 1;
             goto ConnectQPExit;
         }

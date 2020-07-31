@@ -2,7 +2,7 @@
 // __thread struct  timeval startt, endd;
 RPCServer::RPCServer(int _cqSize) :cqSize(_cqSize) {
 	// xxxx
-	Debug::notifyInfo("constructing rpc server\n");
+	Debug::notifyInfo("constructing rpc server");
 
 	mm = 0;
 	UnlockWait = false;
