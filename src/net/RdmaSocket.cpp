@@ -796,6 +796,7 @@ bool RdmaSocket::RdmaReceive(uint16_t NodeID, uint64_t SourceBuffer, uint64_t Bu
     ret = ibv_post_recv(peers[NodeID]->qp[0], &wr, &wrBad);
     if (ret) {
         Debug::notifyError("Receive with RDMA_RECV failed, ret = %d.", ret);
+        Debug::notifyError("wrBad == wr: %d", wrBad == &wr);
         return false;
     }
 	return true;
