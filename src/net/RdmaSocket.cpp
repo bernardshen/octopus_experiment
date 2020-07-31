@@ -8,7 +8,7 @@
 using namespace std;
 
 RdmaSocket::RdmaSocket(int _cqNum, uint64_t _mm, uint64_t _mmSize, Configuration* _conf, bool _isServer, uint8_t _Mode) :
-DeviceName(NULL), Port(1), ServerPort(5678), GidIndex(5), // GidIndex(0),
+DeviceName(NULL), Port(1), ServerPort(5678), GidIndex(0), // GidIndex(0),
 isRunning(true), isServer(_isServer), cqNum(_cqNum), cqPtr(0), 
 mm(_mm), mmSize(_mmSize), conf(_conf), MaxNodeID(1), Mode(_Mode) {
 	/* Use multiple cq to parallelly process new request. */
