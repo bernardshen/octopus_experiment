@@ -642,6 +642,7 @@ void RdmaSocket::ServerConnect() {
             }
         }
     }
+    Debug::notifyInfo("ServerConnect ends");
 }
 
 int RdmaSocket::SocketConnect(uint16_t NodeID) {
