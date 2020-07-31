@@ -55,6 +55,10 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 		sendBuffer = mm;
 		receiveBuffer = mm;
 		remoteRecvBuffer = (socket->getNodeID() - conf->getServerCount() - 1) * CLIENT_MESSAGE_SIZE;
+
+		// sxxxx
+		Debug::notifyInfo("nodeID: %d, server count: %d", socket->getNodeID(), conf->getServerCount());
+		Debug::notifyInfo("remote receive buffer: %d", remoteRecvBuffer);
 	}
 	GeneralReceiveBuffer *recv = (GeneralReceiveBuffer*)receiveBuffer;
 	if (isServer)
@@ -113,6 +117,7 @@ uint64_t RPCClient::ContractSendBuffer(GeneralSendBuffer *send) {
 			break;
 		}
 	}
+	Debug::notifyInfo("contract length = %d\n", (int)length);
 	// printf("contract length = %d", (int)length);
 	return length;
 }

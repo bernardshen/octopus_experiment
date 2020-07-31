@@ -12,7 +12,7 @@ void Stop (int signo) {
 }
 int main() {
     // xxxx
-    Debug::notifyInfo("server start\n");
+    Debug::notifyInfo("server start");
 
     signal(SIGINT, Stop);
     

@@ -46,6 +46,7 @@ mm(_mm), mmSize(_mmSize), conf(_conf), MaxNodeID(1), Mode(_Mode) {
         }
         WriteTest = false;
         for (int i = 0; i < WORKER_NUMBER; i ++) {
+            Debug::notifyInfo("create data transfer worker");
             worker[i] = thread(&RdmaSocket::DataTransferWorker, this, i);
         }
     }
@@ -396,6 +397,7 @@ bool RdmaSocket::ConnectQueuePair(PeerSockData *peer) {
     }
     if (isServer && RemoteID.isServer) {
         /* A server is connecting to me, we are both servers. */
+        Debug::notifyInfo("server connecting to server peer->NodeID is set to RemoteID.NodeID");
         peer->NodeID = RemoteID.NodeID;
     } else if (isServer && !RemoteID.isServer && MyNodeID != 1) {
         peer->NodeID = RemoteID.NodeID;
@@ -403,6 +405,7 @@ bool RdmaSocket::ConnectQueuePair(PeerSockData *peer) {
         peer->NodeID = MaxNodeID;
         MaxNodeID += 1;
     } else if (!isServer && RemoteID.GivenID != 0) {
+        Debug::notifyInfo("set MyNodeID to 0");
         MyNodeID = RemoteID.GivenID;
     }
 
@@ -606,6 +609,7 @@ void RdmaSocket::RdmaAccept(int sock) {
             /* Rdma Receive in Advance. */
             for (int i = 0; i < QPS_MAX_DEPTH; i++) {
                 RdmaReceive(peer->NodeID, mm + peer->NodeID * 4096, 0);
+                Debug::debugItem("mm: 0x%lx", mm);
             }
 
             Debug::debugItem("Accepted to Node%d", peer->NodeID);
@@ -1083,8 +1087,12 @@ bool RdmaSocket::_RdmaBatchWrite(uint16_t NodeID, uint64_t SourceBuffer, uint64_
         send_wr[w_i].send_flags = (peer->counter & SIGNAL_BATCH) == 0 ? IBV_SEND_SIGNALED : 0;
         
         //send_wr[w_i].send_flags |= IBV_SEND_INLINE;
-        send_wr[w_i].wr.rdma.remote_addr = DesBuffer + peer->RegisteredMemory + w_i * 4096;
+        // sxxxx
+        send_wr[w_i].wr.rdma.remote_addr = DesBuffer + peer->RegisteredMemory + w_i * 4096; // ori
+        // send_wr[w_i].wr.rdma.remote_addr = -DesBuffer + 0x7f8003bbe00 + w_i * 4096;
+        // exxxx
         Debug::debugItem("remote address = %lx, Counter = %d, imm = %lx", send_wr[w_i].wr.rdma.remote_addr, peer->counter, imm);
+        Debug::debugItem("remote register addr = %lx", peer->RegisteredMemory);
         send_wr[w_i].wr.rdma.rkey        = peer->rkey;
         peer->counter += 1;
     }

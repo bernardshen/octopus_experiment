@@ -1,4 +1,5 @@
 #include "nrfs.h"
+#include "debug.hpp"
 #include <sys/time.h>
 #define COUNT 50
 char name[][10] = {"/file1", "/file2", "/file3", "/file4", "/file5", "/file6"};
@@ -11,6 +12,7 @@ int filesize;
 char buf[0x10000010];
 void filesystem_test()
 {
+    Debug::notifyInfo("file system test");
     int op, i;
     char path[255] = {0};
     struct  timeval    tv;

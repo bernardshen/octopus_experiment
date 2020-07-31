@@ -143,7 +143,7 @@ nrfs nrfsConnect(const char* host, int port, int size)
 	DmfsDataOffset += SERVER_MASSAGE_SIZE * SERVER_MASSAGE_NUM * client->getConfInstance()->getServerCount();
     DmfsDataOffset += METADATA_SIZE;
     printf("FileMetaSize = %ld, DirMetaSize = %ld\n", sizeof(FileMeta), sizeof(DirectoryMeta));
-    usleep(100000);
+    // usleep(100000);
 	return (nrfs)0;
 }
 
@@ -840,6 +840,7 @@ int nrfsListDirectory(nrfs fs, const char* _path, nrfsfilelist *list)
 	correct(_path, bufferGeneralSend.path);
 	
 	uint16_t node_id = get_node_id_by_path(bufferGeneralSend.path);
+	Debug::notifyInfo("hashed nodeID: %d", node_id);
 
 	sendMessage(node_id, &bufferGeneralSend, sizeof(GeneralSendBuffer), 
 					&bufferReadDirectoryReceive, sizeof(ReadDirectoryReceiveBuffer));
