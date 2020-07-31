@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>  
 <address>
 	<node>
-		<id>0</id>
+		<id>1</id>
 		<ip>10.10.10.1</ip>
 	</node>
 	<node>
-		<id>1</id>
+		<id>2</id>
 		<ip>10.10.10.2</ip>
 	</node>
 </address>

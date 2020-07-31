@@ -218,6 +218,11 @@ bool RdmaSocket::CreateQueuePair(PeerSockData *peer, int offset) {
 
     if (isServer && peer->NodeID > 0 && peer->NodeID <= ServerCount) {
         /* Server interconnect, use cq at 0. */
+        
+        // sxxxx
+        Debug::notifyInfo("Server interconnect");
+        // exxxx
+
         attr.send_cq = cq[0];
         attr.recv_cq = cq[0];
         peer->cq = cq[0];
