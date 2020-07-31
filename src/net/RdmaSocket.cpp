@@ -609,9 +609,8 @@ void RdmaSocket::RdmaAccept(int sock) {
             /* Rdma Receive in Advance. */
             for (int i = 0; i < QPS_MAX_DEPTH; i++) {
                 RdmaReceive(peer->NodeID, mm + peer->NodeID * 4096, 0);
-                Debug::debugItem("mm: 0x%lx", mm);
             }
-
+            Debug::debugItem("mm: 0x%lx", mm);
             Debug::debugItem("Accepted to Node%d", peer->NodeID);
         }
     }
