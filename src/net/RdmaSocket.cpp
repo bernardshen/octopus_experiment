@@ -33,6 +33,9 @@ mm(_mm), mmSize(_mmSize), conf(_conf), MaxNodeID(1), Mode(_Mode) {
 	} else {
         cqPtr = 0;
     }
+    // sxxxx
+    Debug::notifyInfo("is server: %d", isServer);
+    // exxxx
 	CreateResources();
     if (!isServer) {
         for (int  i = 0; i < WORKER_NUMBER; i++) {
@@ -206,6 +209,10 @@ bool RdmaSocket::CreateResources() {
 
 bool RdmaSocket::CreateQueuePair(PeerSockData *peer, int offset) {
 
+    // sxxxx
+    Debug::notifyInfo("create QP");
+    // exxxx
+
 	struct ibv_qp_init_attr attr;
 	memset(&attr, 0, sizeof(attr));
 
@@ -218,7 +225,7 @@ bool RdmaSocket::CreateQueuePair(PeerSockData *peer, int offset) {
 
     if (isServer && peer->NodeID > 0 && peer->NodeID <= ServerCount) {
         /* Server interconnect, use cq at 0. */
-        
+
         // sxxxx
         Debug::notifyInfo("Server interconnect");
         // exxxx
@@ -362,6 +369,7 @@ bool RdmaSocket::ModifyQPtoRTS(struct ibv_qp *qp) {
 }
 
 bool RdmaSocket::ConnectQueuePair(PeerSockData *peer) {
+    Debug::notifyInfo("connecting queue pair");
 	ExchangeMeta LocalMeta, RemoteMeta;
     ExchangeID LocalID, RemoteID;
 	int rc = 0, N;
