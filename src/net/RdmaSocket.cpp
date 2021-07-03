@@ -25,8 +25,8 @@ mm(_mm), mmSize(_mmSize), conf(_conf), MaxNodeID(1), Mode(_Mode) {
 		gethostname(hname, sizeof(hname));
 		hent = gethostbyname(hname);
         // sxxx
-		string ip(inet_ntoa(*(struct in_addr*)(hent->h_addr_list[0]))); // orig
-        // string ip("10.10.10.1");
+		// string ip(inet_ntoa(*(struct in_addr*)(hent->h_addr_list[0]))); // orig
+        string ip("10.176.37.64");
         // exxx
 		MyNodeID = conf->getIDbyIP(ip);
         Debug::notifyInfo("IP = %s, NodeID = %d", ip.c_str(), MyNodeID);

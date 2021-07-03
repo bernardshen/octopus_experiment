@@ -2,10 +2,6 @@
 <address>
 	<node>
 		<id>1</id>
-		<ip>10.10.10.1</ip>
-	</node>
-	<node>
-		<id>2</id>
-		<ip>10.10.10.2</ip>
+		<ip>10.176.37.64</ip>
 	</node>
 </address>

@@ -19,6 +19,7 @@ Configuration::Configuration() {
         id2ip[(uint16_t)(pos->second.get<int>("id"))] = pos->second.get<string>("ip");
         ip2id[pos->second.get<string>("ip")] = pos->second.get<int>("id");
         ServerCount += 1;
+		Debug::notifyInfo("here1");
     }
 	// sjc debug
 	Debug::notifyInfo("Server count: %d\n", ServerCount);
